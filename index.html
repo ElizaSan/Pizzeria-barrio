@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Pedidos - La Pizzería del Barrio</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+    h1 {
+      color: #d32f2f;
+      text-align: center;
+      margin-top: 0;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: normal;
+    }
+    .total-box {
+      background-color: #ffebee;
+      border: 2px dashed #d32f2f;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 25px;
+    }
+    .total-price {
+      font-size: 28px;
+      font-weight: bold;
+      color: #d32f2f;
+    }
+    button {
+      width: 100%;
+      background-color: #388e3c;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    button:hover {
+      background-color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🍕 La Pizzería del Barrio</h1>
+    <p style="text-align: center; color: #666;">Calcula el precio de tu pedido en línea</p>
+
+    <!-- Formulario de la Pizza -->
+    <div class="form-group">
+      <label for="tamano">1. Selecciona el Tamaño:</label>
+      <select id="tamano" onchange="calcularTotal()">
+        <option value="120">Personal - $120 MXN</option>
+        <option value="180" selected>Mediana - $180 MXN</option>
+        <option value="250">Familiar - $250 MXN</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>2. Ingredientes Extras (+$20 MXN c/u):</label>
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" value="20" class="extra" onchange="calcularTotal()"> Queso Extra
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="20" class="extra" onchange="calcularTotal()"> Champriñones
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="20" class="extra" onchange="calcularTotal()"> Jalapeños
+        </label>
+      </div>
+    </div>
+
+    <!-- Muestrario de Precio Total -->
+    <div class="total-box">
+      <span>Total a Pagar:</span>
+      <div class="total-price" id="precio-total">$180 MXN</div>
+    </div>
+
+    <button onclick="confirmarPedido()">Confirmar Pedido</button>
+  </div>
+
+  <!-- Lógica en JavaScript -->
+  <script>
+    function calcularTotal() {
+      // Obtener el precio base según el tamaño seleccionado
+      let tamanoSelect = document.getElementById("tamano");
+      let precioBase = parseFloat(tamanoSelect.value);
+
+      // Sumar los ingredientes adicionales seleccionados
+      let extras = document.querySelectorAll(".extra");
+      let costoExtras = 0;
+
+      extras.forEach(function(item) {
+        if (item.checked) {
+          costoExtras += parseFloat(item.value);
+        }
+      });
+
+      // Calcular la suma total
+      let total = precioBase + costoExtras;
+
+      // Actualizar el DOM
+      document.getElementById("precio-total").innerText = "$" + total + " MXN";
+    }
+
+    function confirmarPedido() {
+      let totalText = document.getElementById("precio-total").innerText;
+      alert("¡Gracias por tu pedido! Tu total es de " + totalText + ". Estará listo en 20 minutos.");
+    }
+  </script>
+
+</body>
+</html>
